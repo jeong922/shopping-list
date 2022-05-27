@@ -41,7 +41,6 @@ function saveLocalStorage() {
 const getLocalStorage = localStorage.getItem('itemName');
 
 function createItem(text) {
-  console.log(text);
   const itemRow = document.createElement('li');
   itemRow.setAttribute('class', 'item__row');
   itemRow.setAttribute('data-id', text.id);
@@ -66,7 +65,6 @@ items.addEventListener('click', (event) => {
     shoppingListArray = shoppingListArray.filter(
       (item) => item.id !== parseInt(id)
     );
-    console.log(shoppingListArray);
     saveLocalStorage();
   }
 });
