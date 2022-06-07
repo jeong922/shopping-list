@@ -12,7 +12,7 @@ form.addEventListener('submit', (event) => {
 
 function onAdd() {
   // 1. 입력한 텍스트 받아오기
-  const text = { id: Date.now(), name: input.value };
+  const text = { id: Date.now(), name: input.value, checked: false };
   shoppingListArray.push(text);
   if (text.name === '') {
     input.focus();
@@ -44,11 +44,23 @@ function createItem(text) {
   const itemRow = document.createElement('li');
   itemRow.setAttribute('class', 'item__row');
   itemRow.setAttribute('data-id', text.id);
+  // itemRow.innerHTML = `
+  //         <div class="item">
+  //           <span class="item__name">${text.name}</span>
+  //           <button class="item__delete">
+  //             <i class="fas fa-trash" data-id=${text.id}></i>
+  //           </button>
+  //         </div>
+  //         <div class="item__divider"></div>
+  // `;
   itemRow.innerHTML = `
           <div class="item">
-            <span class="item__name">${text.name}</span>
+            <div class='item__wrapper'>
+              <input type="checkbox" id=${text.id} class="item__checkbox"></input>
+              <span id=${text.id} class="item__name">${text.name}</span>
+            </div>
             <button class="item__delete">
-              <i class="fas fa-trash" data-id=${text.id}></i>
+              <i class="fas fa-minus-circle" data-id=${text.id}></i>
             </button>
           </div>
           <div class="item__divider"></div>

@@ -8,6 +8,10 @@
 body {
   background-color: #ced3df;
   text-align: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 button {
@@ -53,9 +57,19 @@ button {
   padding: 8px 32px;
 }
 
+.item__wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.item__checkbox {
+  margin-right: 10px;
+}
+
 .item__delete {
   transition: all 300ms ease-in;
   font-size: 16px;
+  color: rgb(165, 85, 85);
 }
 
 .item__delete:hover {
