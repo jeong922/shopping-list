@@ -44,20 +44,11 @@ function createItem(text) {
   const itemRow = document.createElement('li');
   itemRow.setAttribute('class', 'item__row');
   itemRow.setAttribute('data-id', text.id);
-  // itemRow.innerHTML = `
-  //         <div class="item">
-  //           <span class="item__name">${text.name}</span>
-  //           <button class="item__delete">
-  //             <i class="fas fa-trash" data-id=${text.id}></i>
-  //           </button>
-  //         </div>
-  //         <div class="item__divider"></div>
-  // `;
   itemRow.innerHTML = `
           <div class="item">
             <div class='item__wrapper'>
-              <input type="checkbox" id=${text.id} class="item__checkbox"></input>
-              <span id=${text.id} class="item__name">${text.name}</span>
+              <input type="checkbox" data-check=${text.id} class="item__checkbox"></input>
+              <span data-key=${text.id} class="item__name">${text.name}</span>
             </div>
             <button class="item__delete">
               <i class="fas fa-minus-circle" data-id=${text.id}></i>
@@ -73,11 +64,27 @@ items.addEventListener('click', (event) => {
   const id = event.target.dataset.id;
   if (id) {
     const toBeDeleted = document.querySelector(`.item__row[data-id="${id}"]`);
+    console.log(toBeDeleted);
     toBeDeleted.remove();
     shoppingListArray = shoppingListArray.filter(
       (item) => item.id !== parseInt(id)
     );
     saveLocalStorage();
+  }
+});
+
+items.addEventListener('change', (event) => {
+  const dataCheck = event.target.dataset.check;
+  const checkedItem = event.target.checked;
+  const itemName = document.querySelector(
+    `.item__name[data-key="${dataCheck}"]`
+  );
+  if (checkedItem) {
+    itemName.style.color = 'rgb(107, 107, 107)';
+    itemName.style.textDecoration = 'line-through';
+  } else {
+    itemName.style.color = 'black';
+    itemName.style.textDecoration = 'none';
   }
 });
 
