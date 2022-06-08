@@ -66,6 +66,11 @@ button {
   margin-right: 10px;
 }
 
+.item__checked {
+  color: rgb(107, 107, 107);
+  text-decoration: line-through;
+}
+
 .item__delete {
   transition: all 300ms ease-in;
   font-size: 16px;

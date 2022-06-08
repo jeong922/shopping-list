@@ -31,12 +31,6 @@ function onAdd() {
   saveLocalStorage();
 }
 
-// 로컬스토리지 저장
-function saveLocalStorage() {
-  const stringifyName = JSON.stringify(shoppingListArray);
-  localStorage.setItem('itemName', stringifyName);
-}
-
 // 로컬스토리지에서 값 받아옴
 const getLocalStorage = localStorage.getItem('itemName');
 
@@ -47,7 +41,7 @@ function createItem(text) {
   itemRow.innerHTML = `
           <div class="item">
             <div class='item__wrapper'>
-              <input type="checkbox" data-check=${text.id} class="item__checkbox"></input>
+              <input type="checkbox" data-check=${text.id} class="item__checkbox" />
               <span data-key=${text.id} class="item__name">${text.name}</span>
             </div>
             <button class="item__delete">
@@ -60,11 +54,24 @@ function createItem(text) {
   return itemRow;
 }
 
+// 로컬스토리지 저장
+function saveLocalStorage() {
+  const stringifyName = JSON.stringify(shoppingListArray);
+  localStorage.setItem('itemName', stringifyName);
+}
+
+function itemStyle(state, element) {
+  if (state) {
+    element.classList.add('item__checked');
+  } else {
+    element.classList.remove('item__checked');
+  }
+}
+
 items.addEventListener('click', (event) => {
   const id = event.target.dataset.id;
   if (id) {
     const toBeDeleted = document.querySelector(`.item__row[data-id="${id}"]`);
-    console.log(toBeDeleted);
     toBeDeleted.remove();
     shoppingListArray = shoppingListArray.filter(
       (item) => item.id !== parseInt(id)
@@ -79,12 +86,15 @@ items.addEventListener('change', (event) => {
   const itemName = document.querySelector(
     `.item__name[data-key="${dataCheck}"]`
   );
+  const macthData = shoppingListArray.find((data) => data.id == dataCheck);
   if (checkedItem) {
-    itemName.style.color = 'rgb(107, 107, 107)';
-    itemName.style.textDecoration = 'line-through';
+    macthData.checked = true;
+    saveLocalStorage();
+    itemStyle(checkedItem, itemName);
   } else {
-    itemName.style.color = 'black';
-    itemName.style.textDecoration = 'none';
+    macthData.checked = false;
+    saveLocalStorage();
+    itemStyle(checkedItem, itemName);
   }
 });
 
@@ -92,4 +102,17 @@ if (getLocalStorage !== null) {
   const parseName = JSON.parse(getLocalStorage);
   shoppingListArray = parseName;
   parseName.forEach(createItem);
+
+  shoppingListArray.map((item) => {
+    const itemName = document.querySelector(
+      `.item__name[data-key="${item.id}"]`
+    );
+    const checkBox = document.querySelector(
+      `.item__checkbox[data-check="${item.id}"]`
+    );
+    if (item.checked) {
+      itemStyle(item.checked, itemName);
+      checkBox.checked = true;
+    }
+  });
 }
