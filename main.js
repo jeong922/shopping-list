@@ -11,28 +11,20 @@ form.addEventListener('submit', (event) => {
 });
 
 function onAdd() {
-  // 1. 입력한 텍스트 받아오기
   const text = { id: Date.now(), name: input.value, checked: false };
   shoppingListArray.push(text);
   if (text.name === '') {
     input.focus();
     return;
   }
-  // 2. 새로운 item 생성(텍스트 + 삭제 버튼)
   const item = createItem(text);
-  // 3. items 컨테이너안에 새로 만든 아이템 추가
-  //items.appendChild(item);
-  // 4. 새로 추가된 아이템으로 스크롤링
   item.scrollIntoView({ block: 'center' });
-  // 5. input 초기화(input value 비우기, input focus)
   input.value = '';
   input.focus();
-  // 로컬스토리지 저장
   saveLocalStorage();
 }
 
-// 로컬스토리지에서 값 받아옴
-const getLocalStorage = localStorage.getItem('itemName');
+const getLocalStorage = localStorage.getItem('shoppingList');
 
 function createItem(text) {
   const itemRow = document.createElement('li');
@@ -54,18 +46,15 @@ function createItem(text) {
   return itemRow;
 }
 
-// 로컬스토리지 저장
 function saveLocalStorage() {
   const stringifyName = JSON.stringify(shoppingListArray);
-  localStorage.setItem('itemName', stringifyName);
+  localStorage.setItem('shoppingList', stringifyName);
 }
 
 function itemStyle(state, element) {
-  if (state) {
-    element.classList.add('item__checked');
-  } else {
-    element.classList.remove('item__checked');
-  }
+  state
+    ? element.classList.add('item__checked')
+    : element.classList.remove('item__checked');
 }
 
 items.addEventListener('click', (event) => {
