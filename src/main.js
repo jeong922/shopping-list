@@ -1,7 +1,10 @@
-const addBtn = document.querySelector('.footer__button');
+import Repository from './repository.js';
+
 const items = document.querySelector('.items');
 const input = document.querySelector('.footer__input');
 const form = document.querySelector('.new-form');
+
+const repository = new Repository();
 
 let shoppingListArray = [];
 
@@ -21,10 +24,8 @@ function onAdd() {
   item.scrollIntoView({ block: 'center' });
   input.value = '';
   input.focus();
-  saveLocalStorage();
+  repository.setLocalStorage(shoppingListArray);
 }
-
-const getLocalStorage = localStorage.getItem('shoppingList');
 
 function createItem(text) {
   const itemRow = document.createElement('li');
@@ -42,19 +43,8 @@ function createItem(text) {
           </div>
           <div class="item__divider"></div>
   `;
-  items.appendChild(itemRow);
+  items.append(itemRow);
   return itemRow;
-}
-
-function saveLocalStorage() {
-  const stringifyName = JSON.stringify(shoppingListArray);
-  localStorage.setItem('shoppingList', stringifyName);
-}
-
-function itemStyle(state, element) {
-  state
-    ? element.classList.add('item__checked')
-    : element.classList.remove('item__checked');
 }
 
 items.addEventListener('click', (event) => {
@@ -65,7 +55,7 @@ items.addEventListener('click', (event) => {
     shoppingListArray = shoppingListArray.filter(
       (item) => item.id !== parseInt(id)
     );
-    saveLocalStorage();
+    repository.setLocalStorage(shoppingListArray);
   }
 });
 
@@ -78,19 +68,18 @@ items.addEventListener('change', (event) => {
   const macthData = shoppingListArray.find((data) => data.id == dataCheck);
   if (checkedItem) {
     macthData.checked = true;
-    saveLocalStorage();
-    itemStyle(checkedItem, itemName);
+    repository.setLocalStorage(shoppingListArray);
+    itemName.classList.toggle('item__checked');
   } else {
     macthData.checked = false;
-    saveLocalStorage();
-    itemStyle(checkedItem, itemName);
+    repository.setLocalStorage(shoppingListArray);
+    itemName.classList.toggle('item__checked');
   }
 });
 
-if (getLocalStorage !== null) {
-  const parseName = JSON.parse(getLocalStorage);
-  shoppingListArray = parseName;
-  parseName.forEach(createItem);
+if (repository.getLocalStorage()) {
+  shoppingListArray = repository.getLocalStorage();
+  shoppingListArray.forEach(createItem);
 
   shoppingListArray.map((item) => {
     const itemName = document.querySelector(
@@ -100,7 +89,7 @@ if (getLocalStorage !== null) {
       `.item__checkbox[data-check="${item.id}"]`
     );
     if (item.checked) {
-      itemStyle(item.checked, itemName);
+      itemName.classList.toggle('item__checked');
       checkBox.checked = true;
     }
   });

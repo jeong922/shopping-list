@@ -26,7 +26,7 @@ button {
   margin: auto;
   background-color: whitesmoke;
   border-radius: 20px;
-  box-shadow: 5px 5px 20px 6px #6e6e6e;
+  box-shadow: 0 5px 18px -7px rgba(0, 0, 0, 1);
 }
 
 .header {
