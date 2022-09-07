@@ -9,13 +9,9 @@ const repository = new Repository();
 class App extends Component {
   setup() {
     this.state = {
-      shoppingList: [
-        // { id: 1, name: '바나나', checked: false },
-        // { id: 2, name: '고구마', checked: false },
-        // { id: 3, name: '납작 복숭아', checked: false },
-        // { id: Date.now(), name: input.value, checked: false }
-      ],
+      shoppingList: [],
     };
+
     if (repository.getLocalStorage()) {
       this.state.shoppingList = repository.getLocalStorage();
     }
@@ -26,14 +22,7 @@ class App extends Component {
       <section class="list">
         <header class="header">Shopping List</header>
         <ul class="items"></ul>
-        <footer class="footer">
-          <form class="new-form">
-            <input type="text" class="footer__input" autofocus />
-            <button type="submit" class="footer__button">
-              <i class="fas fa-plus"></i>
-            </button>
-          </form>
-        </footer>
+        <footer class="footer"></footer>
       </section>
     `;
   }

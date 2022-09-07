@@ -12,6 +12,11 @@ export default class ItemInput extends Component {
     `;
   }
 
+  mounted() {
+    const input = this.target.querySelector('.footer__input');
+    input.focus();
+  }
+
   setEvent() {
     this.target.addEventListener('submit', (e) => {
       e.preventDefault();

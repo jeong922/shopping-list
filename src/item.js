@@ -61,20 +61,13 @@ export default class Item extends Component {
 
     this.target.addEventListener('change', (event) => {
       const dataCheck = event.target.dataset.check;
-      const checkedItem = event.target.checked;
       const itemName = document.querySelector(
         `.item__name[data-key="${dataCheck}"]`
       );
       const macthData = list.find((data) => data.id == dataCheck);
-      if (checkedItem) {
-        macthData.checked = true;
-        repository.setLocalStorage(list);
-        itemName.classList.toggle('item__checked');
-      } else {
-        macthData.checked = false;
-        repository.setLocalStorage(list);
-        itemName.classList.toggle('item__checked');
-      }
+      macthData.checked = !macthData.checked;
+      repository.setLocalStorage(list);
+      itemName.classList.toggle('item__checked');
     });
   }
 }
